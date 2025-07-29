@@ -1,147 +1,128 @@
 🎓 RFID Student Attendance System
-This Arduino-based system offers a streamlined solution for student attendance management. By leveraging an MFRC522 RFID reader, it efficiently scans student ID cards, authenticates their unique identifiers (UIDs) against a pre-configured database, and provides instant feedback on a 16x2 I2C LCD. All attendance events and scanned UIDs are meticulously logged to the Serial Monitor, ensuring robust record-keeping and facilitating debugging.
+An Arduino-based system to streamline student attendance management using RFID technology. It utilizes an MFRC522 RFID reader to authenticate ID cards, display student info on a 16x2 I2C LCD, and logs all activity via Serial Monitor for easy tracking and debugging.
 
 ✨ Key Features
-RFID Card Authentication: Reads and validates RFID card UIDs using the MFRC522 module against a predefined list.
+✅ RFID Card Authentication
+Scans and validates RFID UIDs using the MFRC522 module against a pre-defined database.
 
-Interactive LCD Display: Provides clear prompts ("Scan ID card"), displays student names, and confirms "Present" status on a 16x2 I2C LCD.
+💬 Interactive LCD Display
+Shows messages like "Scan ID card", student names, and "Present" status on a 16x2 I2C LCD.
 
-Real-time Serial Monitoring: Outputs detailed UID information and attendance status to the Serial Monitor for comprehensive logging and oversight.
+🖥️ Real-time Serial Monitoring
+Logs UID and attendance status to the Serial Monitor for transparency and debugging.
 
-Error Feedback: Clearly indicates "ID doesn't match" on the LCD for any unrecognized or invalid RFID cards.
+⚠️ Error Feedback
+Displays "ID doesn't match" for unrecognized RFID cards on the LCD.
 
-Student Roster Management: Integrates a manageable list of student names directly correlated with their valid UIDs.
+📋 Student Roster Management
+Maps student names to their valid UIDs within the Arduino code.
 
 ⚙️ Hardware Requirements
-Arduino Uno (or a compatible board like Nano, Mega)
-
-1x MFRC522 RFID Reader Module
-
-1x 16x2 I2C LCD Display (with PCF8574 I2C adapter)
-
-RFID Cards/Tags (minimum 5 for the pre-defined students, plus extras for testing)
-
-Breadboard (optional, for organized prototyping)
-
-Jumper Wires (Male-to-Male, Male-to-Female as required)
-
-USB Cable (for connecting the Arduino to your PC)
+Component	Quantity	Notes
+Arduino Uno / Nano / Mega	1	Any compatible board
+MFRC522 RFID Reader	1	For UID scanning
+16x2 I2C LCD (PCF8574)	1	For display
+RFID Cards/Tags	5+	For valid/invalid testing
+Breadboard	Optional	For cleaner wiring
+Jumper Wires	As needed	Male-to-Male / Male-to-Female
+USB Cable	1	For Arduino connection
 
 💻 Software Requirements
-Arduino IDE (Version 1.8.19 or newer recommended)
+Arduino IDE (v1.8.19 or newer)
 
-Essential Libraries:
+🔌 Required Libraries
+Library	Author	Installation
+SPI.h	Arduino	Pre-installed
+Wire.h	Arduino	Pre-installed
+MFRC522.h	UIPEthernet	Sketch > Include Library > Manage Libraries
+LiquidCrystal_I2C.h	Frank de Brabander	Sketch > Include Library > Manage Libraries
 
-SPI.h (Standard Arduino library, typically pre-installed)
-
-Wire.h (Standard Arduino library for I2C communication, typically pre-installed)
-
-MFRC522.h by UIPEthernet
-
-Installation: In the Arduino IDE, navigate to Sketch > Include Library > Manage Libraries.... Search for "MFRC522" and install the library by "UIPEthernet" (or a widely compatible alternative).
-
-LiquidCrystal_I2C.h by Frank de Brabander
-
-Installation: In the Arduino IDE, go to Sketch > Include Library > Manage Libraries.... Search for "LiquidCrystal I2C" and install the library by "Frank de Brabander".
-
-🚀 Setup and Installation
-To get the project running locally, follow these steps:
-
-Clone the repository:
-Open your Git Bash or preferred terminal/command prompt. Navigate to your desired local directory and clone the project repository:
-
+🚀 Setup & Installation
+1. 🔁 Clone the Repository
+bash
+Copy
+Edit
 git clone https://github.com/Tejasai120603/RFID-Attendance-System.git
 cd RFID-Attendance-System
+2. 🧠 Open in Arduino IDE
+Launch Arduino IDE.
 
+Open the sketch_may1a.ino file from the cloned directory.
 
-Open in Arduino IDE:
+3. 📚 Install Required Libraries
+Ensure both MFRC522 and LiquidCrystal_I2C libraries are installed.
 
-Browse to the RFID-Attendance-System folder you just cloned.
+🔌 Hardware Wiring
+🟢 MFRC522 RFID Reader → Arduino
+RFID Pin	Arduino Pin
+SDA (SS)	D10
+SCK	D13
+MOSI	D11
+MISO	D12
+RST	D9
+GND	GND
+3.3V	3.3V
+IRQ	Not Used
 
-Open the sketch_may1a.ino file within the Arduino IDE.
+🔵 16x2 I2C LCD → Arduino
+LCD Pin	Arduino Pin
+VCC	5V
+GND	GND
+SDA	A4
+SCL	A5
 
-Install Libraries:
+📝 Note: Default I2C address is 0x27. If the LCD doesn't work, try 0x3F in this line:
 
-Ensure that both the MFRC522 and LiquidCrystal_I2C libraries are correctly installed in your Arduino IDE, as detailed in the "Software Requirements" section above.
-
-Connect Hardware:
-
-MFRC522 RFID Reader Module Wiring:
-
-SDA (SS) ➡️ Arduino Digital Pin 10
-
-SCK ➡️ Arduino Digital Pin 13
-
-MOSI ➡️ Arduino Digital Pin 11
-
-MISO ➡️ Arduino Digital Pin 12
-
-IRQ (optional, not used in this sketch) - Leave unconnected
-
-GND ➡️ Arduino GND
-
-RST ➡️ Arduino Digital Pin 9
-
-3.3V ➡️ Arduino 3.3V
-
-16x2 I2C LCD Display Wiring:
-
-VCC ➡️ Arduino 5V
-
-GND ➡️ Arduino GND
-
-SDA ➡️ Arduino Analog Pin A4
-
-SCL ➡️ Arduino Analog Pin A5
-(Important Note: The I2C address 0x27 is commonly used, but some LCDs might require 0x3F. If your LCD doesn't display anything, try changing 0x27 to 0x3F in the LiquidCrystal_I2C lcd(0x27, 16, 2); line within the code.)
-
+cpp
+Copy
+Edit
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 ▶️ How to Run
-Upload to Arduino:
+Connect Arduino to your PC via USB.
 
-Connect your Arduino board to your computer using a USB cable.
+In Arduino IDE:
 
-In the Arduino IDE, go to Tools > Board and select your specific Arduino board (e.g., "Arduino Uno").
+Go to Tools > Board and select your board (e.g., Arduino Uno).
 
-Then, go to Tools > Port and select the correct COM port corresponding to your connected Arduino board.
+Go to Tools > Port and select the correct COM port.
 
-Click the "Upload" button (the right arrow icon) in the Arduino IDE to compile and transfer the sketch to your board.
+Click the Upload (▶️) button to compile and flash the code.
 
-Power On: Once the sketch is successfully uploaded and the Arduino board is powered, the LCD will illuminate and display "Scan ID card".
+🎯 Using the System
+✅ Valid Card
+LCD: Shows student name and "~ Present" for 3 seconds.
 
-Scan Card: Gently present an RFID card or tag to the MFRC522 reader module.
+Serial Monitor: Logs UID and student name.
 
-Valid Card Recognition:
+❌ Invalid Card
+LCD: Shows "ID doesn't match" for 2 seconds.
 
-If the scanned card's UID matches one of the validUIDs defined in the Arduino code, the LCD will display the corresponding student's name on the first line and "~ Present" on the second line for approximately 3 seconds.
+Serial Monitor: Logs UID with no name.
 
-Simultaneously, the Serial Monitor will log the scanned UID and the associated student's name.
+🔁 Ready for Next Scan
+After display, LCD resets to "Scan ID card" for the next input.
 
-Invalid Card Indication:
-
-If the scanned card's UID does not match any of the validUIDs, the LCD will display "ID doesn't match" for 2 seconds.
-
-The Serial Monitor will still log the scanned UID, but no student name will be associated.
-
-Ready for Next Scan: After displaying the attendance status (or error message), the LCD will automatically clear and revert to "Scan ID card", preparing for the next RFID scan.
-
-Monitor Logs: To view detailed UID and attendance logs, open the Serial Monitor in the Arduino IDE (Tools > Serial Monitor) and ensure the baud rate is set to 9600.
+📟 To view logs: Open Serial Monitor (Tools > Serial Monitor) and set baud rate to 9600.
 
 👥 Authors
-This project was developed by:
-
 Teja Sai Yallamelli
 
 📞 Contact
-For inquiries or collaboration, feel free to reach out at:
+Feel free to reach out for queries or collaboration:
 
-tejasairavikumar@gmail.com
+📧 tejasairavikumar@gmail.com
 
 🤝 Contributing
-We welcome contributions to enhance this project! If you have suggestions for improvements, new features, or discover any bugs, please feel free to:
+We welcome enhancements, suggestions, and contributions!
+You can:
 
-Open an issue on GitHub.
+💡 Open an issue
 
-Submit a pull request with your proposed changes.
+📥 Submit a pull request
+
+🛠 Suggest a new feature or fix
 
 📄 License
-This project is open-source and licensed under the MIT License. For full details, please refer to the LICENSE file in the repository.
+This project is licensed under the MIT License.
+See the LICENSE file for details.
+
